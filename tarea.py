@@ -105,8 +105,19 @@ def mayorPromedio_velocidad(df):
 
 
     return resultado
-#Esta no se como hacerla XD
+#Para cada tipo principal, Pokémon con el mayor y menor PS
 def MayoryMenor_PS(df):
+    
+    idx_max = df.groupby("Tipo 1")["PS"].idxmax()#Se obtienen los índices mayores de PS para cada tipo principal
+    idx_min = df.groupby("Tipo 1")["PS"].idxmin()#Se obtienen los índices minimos de PS para cada tipo principal
+#Se crean dos tablas con los datos pedidos, renombrando columnas para que sean mas claras
+    maximos = df.loc[idx_max, ["Tipo 1", "Nombre", "PS"]].rename(columns={"Nombre": "Pokémon_Max", "PS": "PS_Max"})
+    minimos = df.loc[idx_min, ["Tipo 1", "Nombre", "PS"]].rename(columns={"Nombre": "Pokémon_Min", "PS": "PS_Min"})
+    
+    resultado = pd.merge(maximos, minimos, on="Tipo 1")#Unión de tablas
+
+    return resultado
+
     
 #Filtrado y seleccion 
 print("-----------Datos de pokemones con tipo fuego------")
@@ -129,3 +140,4 @@ print(Ordenar(df))
 print(calcular_tipo(df))
 print("El tipo con mayor promedio en velocidad es: " ,mayorPromedio_velocidad(df))
 print(MayoryMenor_PS(df))
+
