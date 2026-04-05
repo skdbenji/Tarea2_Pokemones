@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 df = pd.read_csv("pokemon_primera_gen.csv")
+#Elimino repetidos iguales(Pikachu)
+df = df.drop_duplicates()
+df['Tipo 1'] = df['Tipo 1'].replace('Hada', 'Normal')
+df['Tipo 2'] = df['Tipo 2'].replace('Hada', 'Normal')
 
 #Retorna los datos de los pokemones que sean tipo fuego
 def fuego_columnas(df):
