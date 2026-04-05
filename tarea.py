@@ -82,6 +82,18 @@ def diagrama_violin_defensa(df):
     plt.xlabel("Defensa")
     plt.show()
 
+#Crear la columna de poder total
+def crear_PoderTotal(df):
+
+    df["Poder total"] = df["Ataque"] + df["Defensa"] + df["Velocidad"] + df["PS"]
+    df.to_csv("pokemon_primera_gen_actualizado.csv", index=False)
+    return df
+
+#Ordenar la columna por poder de mayor a menor
+def Ordenar(df):
+    df = df.sort_values(by = "Poder total", ascending = False)
+
+    return df
 #Filtrado y seleccion 
 print("-----------Datos de pokemones con tipo fuego------")
 print(fuego_columnas(df))
@@ -98,3 +110,5 @@ print("Desplegando histograma...",histograma_ataque(df))
 print("Desplegando grafico de dispersion...", grafico_dispersion_AtaqueYvelocidad(df))
 print(boxplot_PS(df))
 print(diagrama_violin_defensa(df))
+print(crear_PoderTotal(df))
+print(Ordenar(df))
