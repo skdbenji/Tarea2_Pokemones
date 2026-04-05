@@ -118,7 +118,37 @@ def MayoryMenor_PS(df):
 
     return resultado
 
-    
+#7. Análisis exploratorio 
+def comparacion_stat_por_tipo(df):
+    promedios = df.groupby("Tipo 1")[["Ataque", "Defensa"]].mean().sort_values(by="Ataque", ascending=False)
+    return promedios
+
+def calcular_correlacion(df):
+    r = df["Ataque"].corr(df["Velocidad"])
+    return r
+
+def dispersion(df):
+    desviacion = df.groupby("Tipo 1")["PS"].std().sort_values(ascending=False)
+    return desviacion
+
+def identificar_outliers(df):
+    plt.figure(figsize=(10, 5))
+
+    # Boxplot para Ataque
+    plt.subplot(1, 2, 1)
+    sns.boxplot(y=df["Ataque"], color="skyblue")
+    plt.title("Outliers en Ataque")
+
+    # Boxplot para PS
+    plt.subplot(1, 2, 2)
+    sns.boxplot(y=df["PS"], color="salmon")
+    plt.title("Outliers en PS")
+
+    plt.tight_layout()
+    plt.show()
+
+#8. Ejercicios de interpretación de resultados
+
 #Filtrado y seleccion 
 print("-----------Datos de pokemones con tipo fuego------")
 print(fuego_columnas(df))
@@ -140,4 +170,9 @@ print(Ordenar(df))
 print(calcular_tipo(df))
 print("El tipo con mayor promedio en velocidad es: " ,mayorPromedio_velocidad(df))
 print(MayoryMenor_PS(df))
-
+print("===========Analisis exploratorio==========")
+print("Comparación entre stats por tipo usando promedio:\n ", comparacion_stat_por_tipo(df))
+print("Correlación (ATAQUE vs VELOCIDAD): ", calcular_correlacion(df))
+print("Dispersion (PS por tipo): \n", dispersion(df))
+print("Identificando outliers...")
+identificar_outliers(df)
