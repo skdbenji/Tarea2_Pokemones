@@ -94,6 +94,20 @@ def Ordenar(df):
     df = df.sort_values(by = "Poder total", ascending = False)
 
     return df
+def calcular_tipo(df):
+
+    resultado = df.groupby("Tipo 1")["Ataque"].agg(["mean" , "median" , "std"]) #agg para sacar varias operaciones a la vez
+
+    return resultado
+
+def mayorPromedio_velocidad(df):
+    resultado = df.groupby("Tipo 1")["Velocidad"].mean().idxmax()
+
+
+    return resultado
+#Esta no se como hacerla XD
+def MayoryMenor_PS(df):
+    
 #Filtrado y seleccion 
 print("-----------Datos de pokemones con tipo fuego------")
 print(fuego_columnas(df))
@@ -112,3 +126,6 @@ print(boxplot_PS(df))
 print(diagrama_violin_defensa(df))
 print(crear_PoderTotal(df))
 print(Ordenar(df))
+print(calcular_tipo(df))
+print("El tipo con mayor promedio en velocidad es: " ,mayorPromedio_velocidad(df))
+print(MayoryMenor_PS(df))
