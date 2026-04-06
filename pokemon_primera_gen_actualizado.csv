@@ -24,7 +24,6 @@ Fearow,Normal,Volador,90,65,100,65,320
 Ekans,Veneno,,60,44,55,35,194
 Arbok,Veneno,,85,69,80,60,294
 Pikachu,Eléctrico,,55,40,90,35,220
-Pikachu,Eléctrico,,55,40,90,35,220
 Raichu,Eléctrico,,90,55,110,60,315
 Sandshrew,Tierra,,75,85,40,50,250
 Sandslash,Tierra,,100,110,65,75,350
@@ -34,12 +33,12 @@ Nidoqueen,Veneno,Tierra,82,87,76,90,335
 Nidoran♂,Veneno,,57,40,50,46,193
 Nidorino,Veneno,,72,57,65,61,255
 Nidoking,Veneno,Tierra,92,77,85,81,335
-Clefairy,Hada,,45,48,35,70,198
-Clefable,Hada,,70,73,60,95,298
+Clefairy,Normal,,45,48,35,70,198
+Clefable,Normal,,70,73,60,95,298
 Vulpix,Fuego,,41,40,65,38,184
 Ninetales,Fuego,,76,75,100,73,324
-Jigglypuff,Normal,Hada,45,20,20,115,200
-Wigglytuff,Normal,Hada,70,45,45,140,300
+Jigglypuff,Normal,Normal,45,20,20,115,200
+Wigglytuff,Normal,Normal,70,45,45,140,300
 Zubat,Veneno,Volador,45,35,55,40,175
 Golbat,Veneno,Volador,80,70,90,75,315
 Oddish,Planta,Veneno,50,55,30,45,180
@@ -121,7 +120,7 @@ Goldeen,Agua,,67,60,63,45,235
 Seaking,Agua,,92,65,68,80,305
 Staryu,Agua,,45,55,85,30,215
 Starmie,Agua,Psiquico,75,85,115,60,335
-Mr. Mime,Psiquico,Hada,45,65,90,40,240
+Mr. Mime,Psiquico,Normal,45,65,90,40,240
 Scyther,Bicho,Volador,110,80,105,70,365
 Jynx,Hielo,Psiquico,50,35,95,65,245
 Electabuzz,Eléctrico,,83,57,105,65,310
