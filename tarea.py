@@ -141,8 +141,49 @@ def mayorPromedio_velocidad(df):
 
     return resultado
 #Esta no se como hacerla XD
-#def MayoryMenor_PS(df):
+def MayoryMenor_PS(df):
     
+    idx_max = df.groupby("Tipo 1")["PS"].idxmax()#Se obtienen los índices mayores de PS para cada tipo principal
+    idx_min = df.groupby("Tipo 1")["PS"].idxmin()#Se obtienen los índices minimos de PS para cada tipo principal
+#Se crean dos tablas con los datos pedidos, renombrando columnas para que sean mas claras
+    maximos = df.loc[idx_max, ["Tipo 1", "Nombre", "PS"]].rename(columns={"Nombre": "Pokémon_Max", "PS": "PS_Max"})
+    minimos = df.loc[idx_min, ["Tipo 1", "Nombre", "PS"]].rename(columns={"Nombre": "Pokémon_Min", "PS": "PS_Min"})
+    
+    resultado = pd.merge(maximos, minimos, on="Tipo 1")#Unión de tablas
+
+    return resultado
+
+#7. Análisis exploratorio 
+def comparacion_stat_por_tipo(df):
+    promedios = df.groupby("Tipo 1")[["Ataque", "Defensa"]].mean().sort_values(by="Ataque", ascending=False)
+    return promedios
+
+def calcular_correlacion(df):
+    r = df["Ataque"].corr(df["Velocidad"])
+    return r
+
+def dispersion(df):
+    desviacion = df.groupby("Tipo 1")["PS"].std().sort_values(ascending=False)
+    return desviacion
+
+def identificar_outliers(df):
+    plt.figure(figsize=(10, 5))
+
+    # Boxplot para Ataque
+    plt.subplot(1, 2, 1)
+    sns.boxplot(y=df["Ataque"], color="skyblue")
+    plt.title("Outliers en Ataque")
+
+    # Boxplot para PS
+    plt.subplot(1, 2, 2)
+    sns.boxplot(y=df["PS"], color="salmon")
+    plt.title("Outliers en PS")
+
+    plt.tight_layout()
+    plt.show()
+
+#8. Ejercicios de interpretación de resultados
+
 #Filtrado y seleccion 
 print("-----------Datos de pokemones con tipo fuego------")
 print(fuego_columnas(df))
