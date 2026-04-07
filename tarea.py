@@ -205,3 +205,8 @@ print(Ordenar(df))
 print(calcular_tipo(df))
 print("El tipo con mayor promedio en velocidad es: " ,mayorPromedio_velocidad(df))
 #print(MayoryMenor_PS(df))
+print(comparacion_stat_por_tipo(df))
+print("La correlacion entre ataque y velocidad es: ", calcular_correlacion(df))    
+print("La desviacion estandar de los PS por tipo es: ", dispersion(df))
+print("Identificando outliers", identificar_outliers(df))
+
