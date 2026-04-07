@@ -3,7 +3,42 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+#__________LIMPIEZA DE DATOS 
 df = pd.read_csv("pokemon_primera_gen.csv")
+df_limpia = pd.read_csv("lista_limpia_de_pokemones_de_primera_generacion.csv")
+#Eliminar errores de escritura
+df["Nombre"] = df["Nombre"].str.strip()
+df["Tipo 1"] = df["Tipo 1"].str.strip()
+df["Tipo 2"] = df["Tipo 2"].str.strip()
+
+#Verificar que no hay datos negativos
+columnas_numericas = ["PS", "Ataque", "Defensa", "Velocidad"]
+for columna in columnas_numericas:
+    df = df[df[columna] >= 0]
+
+#Ve y hay algun pokemon que este repetido
+duplicado = df[df.duplicated(subset="Nombre")]
+print("Estos datos estan repetidos:")
+print(duplicado)
+df = df.drop_duplicates(subset="Nombre")
+df = df.reset_index(drop=True) #Lo investigamos y sirve para reseatear el indice
+
+#Verificar que haya solo pokemones de la primera generacion
+df = df[df["Nombre"].isin(df_limpia["Nombre"])]
+df = df.reset_index(drop=True)
+
+#Verificar los tipos 
+validar_tipos = [
+    "Normal", "Fuego", "Agua", "Planta", "Eléctrico", "Hielo", "Lucha",
+    "Veneno", "Tierra", "Volador", "Psiquico", "Bicho", "Roca", "Fantasma", "Dragón"
+]
+df = df[df["Tipo 1"].isin(validar_tipos)]
+df = df[df["Tipo 2"].isna() | df["Tipo 2"].isin(validar_tipos)]
+df = df.reset_index(drop=True)
+
+
+print(df)
+
 
 #Retorna los datos de los pokemones que sean tipo fuego
 def fuego_columnas(df):
@@ -106,7 +141,7 @@ def mayorPromedio_velocidad(df):
 
     return resultado
 #Esta no se como hacerla XD
-def MayoryMenor_PS(df):
+#def MayoryMenor_PS(df):
     
 #Filtrado y seleccion 
 print("-----------Datos de pokemones con tipo fuego------")
@@ -128,4 +163,4 @@ print(crear_PoderTotal(df))
 print(Ordenar(df))
 print(calcular_tipo(df))
 print("El tipo con mayor promedio en velocidad es: " ,mayorPromedio_velocidad(df))
-print(MayoryMenor_PS(df))
+#print(MayoryMenor_PS(df))
