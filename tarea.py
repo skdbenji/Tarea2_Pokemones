@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-#__________LIMPIEZA DE DATOS 
+#__________LIMPIEZA DE DATOS y LECTURA DE DATOS______
 df = pd.read_csv("pokemon_primera_gen.csv")
 df_limpia = pd.read_csv("lista_limpia_de_pokemones_de_primera_generacion.csv")
 #Eliminar errores de escritura
@@ -35,15 +35,14 @@ validar_tipos = [
 df = df[df["Tipo 1"].isin(validar_tipos)]
 df = df[df["Tipo 2"].isna() | df["Tipo 2"].isin(validar_tipos)]
 df = df.reset_index(drop=True)
-
-
 print(df)
 
-
+#2 FILTRADO Y SELECCION
 #Retorna los datos de los pokemones que sean tipo fuego
 def fuego_columnas(df):
     return df[df["Tipo 1"] == "Fuego"][["Nombre", "Tipo 1", "Ataque", "Velocidad"]]
 
+#3. ESTADISTICA DESCRIPTIVA BASICA
 #La media de los ataque
 def media(df):
     return df["Ataque"].mean()
@@ -81,6 +80,7 @@ def calcular_rango(df):
 def desviacion_estandar(df):
     return df["PS"].std()
 
+#4. VISUALIZACION DE DATOS
 #Histograma de ataque
 def histograma_ataque(df):
     df["Ataque"].hist()
@@ -117,6 +117,7 @@ def diagrama_violin_defensa(df):
     plt.xlabel("Defensa")
     plt.show()
 
+#5. MANIPULACION DE DATOS
 #Crear la columna de poder total
 def crear_PoderTotal(df):
 
@@ -129,18 +130,21 @@ def Ordenar(df):
     df = df.sort_values(by = "Poder total", ascending = False)
 
     return df
+
+#6.MANIPULACION DE DATOS
+#Calcular el promedio, mediana y desviacion estandar del ataque por cada tipo de pokemon
 def calcular_tipo(df):
 
     resultado = df.groupby("Tipo 1")["Ataque"].agg(["mean" , "median" , "std"]) #agg para sacar varias operaciones a la vez
 
     return resultado
-
+#Que tipo tiene el mayor promedio de velocidad
 def mayorPromedio_velocidad(df):
     resultado = df.groupby("Tipo 1")["Velocidad"].mean().idxmax()
 
 
     return resultado
-#Esta no se como hacerla XD
+#Pokémon con mayor y menor PS
 def MayoryMenor_PS(df):
     
     idx_max = df.groupby("Tipo 1")["PS"].idxmax()#Se obtienen los índices mayores de PS para cada tipo principal
@@ -154,18 +158,22 @@ def MayoryMenor_PS(df):
     return resultado
 
 #7. Análisis exploratorio 
+#Ver si existen tipos de pokemon que tienden a tener mayor ataque o defensa
 def comparacion_stat_por_tipo(df):
     promedios = df.groupby("Tipo 1")[["Ataque", "Defensa"]].mean().sort_values(by="Ataque", ascending=False)
     return promedios
 
+#Hallar la correlacion entre ataque y velocidad
 def calcular_correlacion(df):
-    r = df["Ataque"].corr(df["Velocidad"])
-    return r
+    correlacion = df["Ataque"].corr(df["Velocidad"])
+    return correlacion
 
+#Calcular que tan dispersos estan los PS por tipo de pokemon
 def dispersion(df):
     desviacion = df.groupby("Tipo 1")["PS"].std().sort_values(ascending=False)
     return desviacion
 
+#Identificar outliers en ataque y PS utilizando boxplots
 def identificar_outliers(df):
     plt.figure(figsize=(10, 5))
 
@@ -204,7 +212,8 @@ print(crear_PoderTotal(df))
 print(Ordenar(df))
 print(calcular_tipo(df))
 print("El tipo con mayor promedio en velocidad es: " ,mayorPromedio_velocidad(df))
-#print(MayoryMenor_PS(df))
+print(MayoryMenor_PS(df))
+print("----------Comparacion de ataque y defensa por tipo de pokemon--------")
 print(comparacion_stat_por_tipo(df))
 print("La correlacion entre ataque y velocidad es: ", calcular_correlacion(df))    
 print("La desviacion estandar de los PS por tipo es: ", dispersion(df))
