@@ -176,6 +176,63 @@ def identificar_outliers(df):
     plt.show()
 
 #8. Ejercicios de interpretación de resultados
+def identificar_outliers(df):
+    plt.figure(figsize=(10, 5))
+    # Boxplot para Ataque
+    plt.subplot(1, 2, 1)
+    sns.boxplot(y=df["Ataque"], color="skyblue")
+    plt.title("Outliers en Ataque")
+    # Boxplot para PS
+    plt.subplot(1, 2, 2)
+    sns.boxplot(y=df["PS"], color="salmon")
+    plt.title("Outliers en PS")
+    plt.tight_layout()
+    plt.show()
+
+#8. Ejercicios de interpretación de resultados
+def interpretar_resultados(df):
+    print("\n========== INTERPRETACIÓN DE RESULTADOS ==========\n")
+    
+    # --- Estadísticas generales ---
+    print(f"Media de Ataque:    {media(df):.2f}")
+    print(f"Mediana de Ataque:  {mediana(df):.2f}")
+    print(f"Moda de Ataque:     {moda(df).values}")
+    print(f"Desv. estándar PS:  {desviacion_estandar(df):.2f}")
+    print(f"Rango de PS:        {calcular_rango(df)}")
+    print(f"Correlación Ataque-Velocidad: {calcular_correlacion(df):.4f}")
+
+    # --- Interpretación de correlación ---
+    corr = calcular_correlacion(df)
+    if abs(corr) < 0.3:
+        interpretacion_corr = "débil — tener mucho ataque no implica ser veloz."
+    elif abs(corr) < 0.6:
+        interpretacion_corr = "moderada — hay cierta relación entre ataque y velocidad."
+    else:
+        interpretacion_corr = "fuerte — los Pokémon con más ataque tienden a ser más rápidos."
+    print(f"→ La correlación es {interpretacion_corr}")
+
+    # --- Tipo más balanceado ---
+    # Un tipo "balanceado" tiene poca diferencia entre su promedio de ataque y defensa
+    promedios = df.groupby("Tipo 1")[["Ataque", "Defensa", "Velocidad", "PS"]].mean()
+    promedios["Diferencia_Atk_Def"] = abs(promedios["Ataque"] - promedios["Defensa"])
+    tipo_balanceado = promedios["Diferencia_Atk_Def"].idxmin()
+    print(f"\nTipo más BALANCEADO (menor diferencia Ataque-Defensa): {tipo_balanceado}")
+    print(promedios.loc[tipo_balanceado])
+
+    # --- Tipo más especializado ---
+    # Un tipo "especializado" tiene la mayor diferencia entre ataque y defensa
+    tipo_especializado = promedios["Diferencia_Atk_Def"].idxmax()
+    print(f"\nTipo más ESPECIALIZADO (mayor diferencia Ataque-Defensa): {tipo_especializado}")
+    print(promedios.loc[tipo_especializado])
+
+    # --- Conclusiones generales ---
+    print("\n========== CONCLUSIONES ==========")
+    print(f"- El Pokémon con mayor defensa es: {mayor_defensa(df)}")
+    print(f"- El Pokémon con menor velocidad es: {menor_velocidad(df)}")
+    print(f"- El tipo con mayor promedio de velocidad es: {mayorPromedio_velocidad(df)}")
+    print(f"- Hay {dos_tipos(df)} Pokémon con doble tipo.")
+    print(f"- El tipo más balanceado es ",{tipo_balanceado})
+    print(f"- El tipo más especializado es ",tipo_especializado)
 
 #Filtrado y seleccion 
 print("-----------Datos de pokemones con tipo fuego------")
@@ -203,4 +260,4 @@ print(comparacion_stat_por_tipo(df))
 print("La correlacion entre ataque y velocidad es: ", calcular_correlacion(df))    
 print("La desviacion estandar de los PS por tipo es: ", dispersion(df))
 print("Identificando outliers", identificar_outliers(df))
-
+interpretar_resultados(df)
